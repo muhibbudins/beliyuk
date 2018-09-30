@@ -30,7 +30,7 @@ program
   .command('serve')
   .description('Run current project directory')
   .action((option) => {
-    if (typeof option === 'object' && option.length === undefined) {
+    if (typeof option === 'object') {
       console.log(`[${chalk.red.bold('ERROR')}] Please define project directory, use ${chalk.blue.bold('halsa serve [directory]')} to run halsa`)
     }
 
