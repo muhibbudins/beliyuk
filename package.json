@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/muhibbudins/halsa#readme",
   "devDependencies": {
-    "from-mark": "0.1.0-dev"
+    "from-mark": "^0.1.2-dev"
   },
   "dependencies": {
     "fs-extra": "^7.0.0",
