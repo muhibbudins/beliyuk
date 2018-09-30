@@ -25,11 +25,9 @@
     "url": "https://github.com/muhibbudins/halsa/issues"
   },
   "homepage": "https://github.com/muhibbudins/halsa#readme",
-  "devDependencies": {
-    "from-mark": "^0.1.2-dev"
-  },
   "dependencies": {
     "chalk": "^2.4.1",
+    "from-mark": "^0.1.2-dev",
     "commander": "^2.18.0",
     "express": "^4.16.3",
     "fs-extra": "^7.0.0",
