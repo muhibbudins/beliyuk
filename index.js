@@ -7,7 +7,6 @@ const { toHTML } = require('from-mark')
 const halsa = (target) => {
   const directory = !target ? __dirname : path.resolve(__dirname, target)
   const directorySource = path.resolve(directory, 'source')
-  const directoryBuild = path.resolve(directory, 'build')
   
   const getDetail = (mark) => {
     const fullPath = mark.replace('source', 'build').replace(/md|mdx/g, 'html')
