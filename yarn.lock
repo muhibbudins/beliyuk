@@ -504,9 +504,11 @@ fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
 
-from-mark@^0.1.5-dev:
-  version "0.1.5-dev"
-  resolved "https://registry.yarnpkg.com/from-mark/-/from-mark-0.1.5-dev.tgz#b88c2cddb1ef6e224207107094eca70038a62cf1"
+from-mark@^0.1.8-dev:
+  version "0.1.8-dev"
+  resolved "https://registry.yarnpkg.com/from-mark/-/from-mark-0.1.8-dev.tgz#d5a6dd315ce26c74a526e4c6f74442abdc93b6c6"
+  dependencies:
+    prettier "^1.14.3"
 
 fs-extra@^7.0.0:
   version "7.0.0"
@@ -1103,6 +1105,10 @@ path-to-regexp@0.1.7:
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
+
+prettier@^1.14.3:
+  version "1.14.3"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.14.3.tgz#90238dd4c0684b7edce5f83b0fb7328e48bd0895"
 
 process-nextick-args@~2.0.0:
   version "2.0.0"
