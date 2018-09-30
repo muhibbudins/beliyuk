@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/muhibbudins/halsa/issues"
   },
-  "homepage": "https://github.com/muhibbudins/halsa#readme"
+  "homepage": "https://github.com/muhibbudins/halsa#readme",
+  "devDependencies": {
+    "from-mark": "0.1.0-dev"
+  },
+  "dependencies": {
+    "glob": "^7.1.3"
+  }
 }
