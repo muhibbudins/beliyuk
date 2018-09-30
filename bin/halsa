@@ -1,0 +1,56 @@
+#! /usr/bin/env node
+
+const { pathExistsSync } = require('fs-extra')
+const path = require('path')
+const chalk = require('chalk')
+const program = require('commander')
+const config = require('../package')
+const install = require('../lib/install')
+const serve = require('../lib/serve')
+const root = process.cwd()
+
+program
+  .usage('[command] [name | port]')
+  .version(`Octopus CLI v${config.version}`, '-v, --version')
+
+program
+  .command('init')
+  .description('Run current project directory')
+  .action((option) => {
+    if (typeof option !== 'object') {
+      // install()
+    }
+  })
+
+program
+  .command('serve')
+  .description('Run current project directory')
+  .action((option) => {
+    if (typeof option === 'object' && option.length === undefined) {
+      console.log(`[${chalk.red.bold('ERROR')}] Please define project directory, use ${chalk.blue.bold('halsa serve [directory]')} to run halsa`)
+    }
+
+    if (typeof option === 'string') {
+      const current = path.join(root, option)
+      const source = path.join(current, 'source')
+
+      if (pathExistsSync(source)) {
+        console.log(`[${chalk.green.bold('HALSA')}] Thanks for using Halsa`)
+        console.log(`[${chalk.green.bold('HALSA')}] Project already running on port 3000`)
+        console.log(`[${chalk.yellow.bold('HALSA')}] Watching file change ...`)
+
+        serve(current)
+      } else {
+        console.log(`[${chalk.red.bold('ERROR')}] Source directory is undefined in this folder, use ${chalk.blue.bold('halsa serve [directory]')} to run halsa`)
+      }
+    }
+  })
+
+program.parse(process.argv)
+
+if (program.args.length === 0) {
+  console.log(`
+  Welcome to Halsa CLI v${config.version},
+  Use ${chalk.green.bold('halsa --help')} to show help message.
+  `)
+}

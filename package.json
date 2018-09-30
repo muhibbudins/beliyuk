@@ -3,6 +3,12 @@
   "version": "0.1.0-dev",
   "description": "Static page generator",
   "main": "index.js",
+  "engines": {
+    "node": ">=8"
+  },
+  "bin": {
+    "halsa": "./bin/halsa"
+  },
   "directories": {
     "example": "example"
   },
@@ -23,6 +29,8 @@
     "from-mark": "^0.1.2-dev"
   },
   "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.18.0",
     "express": "^4.16.3",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.3"
