@@ -1,0 +1,22 @@
+{
+  "name": "halsa",
+  "version": "0.1.0-dev",
+  "description": "Static page generator",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhibbudins/halsa.git"
+  },
+  "author": "Muhibbudin Suretno <muhibbudinsuretno1@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/muhibbudins/halsa/issues"
+  },
+  "homepage": "https://github.com/muhibbudins/halsa#readme"
+}
