@@ -17,8 +17,12 @@ program
   .command('init')
   .description('Run current project directory')
   .action((option) => {
+    if (typeof option === 'object' && option.length === undefined) {
+      console.log(`[${chalk.red.bold('ERROR')}] Please define project directory, use ${chalk.blue.bold('halsa init [directory]')} to create halsa`)
+    }
+
     if (typeof option !== 'object') {
-      // install()
+      install(root, __dirname, option)
     }
   })
 
