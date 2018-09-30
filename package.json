@@ -23,6 +23,7 @@
     "from-mark": "^0.1.2-dev"
   },
   "dependencies": {
+    "express": "^4.16.3",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.3"
   }
