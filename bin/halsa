@@ -11,7 +11,7 @@ const root = process.cwd()
 
 program
   .usage('[command] [name | port]')
-  .version(`Octopus CLI v${config.version}`, '-v, --version')
+  .version(`Halsa CLI v${config.version}`, '-v, --version')
 
 program
   .command('init')
