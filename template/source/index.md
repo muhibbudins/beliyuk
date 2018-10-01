@@ -1,20 +1,18 @@
-[document]
+---
   title : Home page
   description : This is home page
   viewport : width=device-width, initial-scale=1.0
-[/document]
+---
 
-[content]
-  # This is a heading 1
+# This is a heading 1
 
-  You can write anything here, and from-mark will be convert it to paragraph
+You can write anything here, and from-mark will be convert it to paragraph
 
-  ## This is a heading 2
-  ### A heading 3, and
-  #### A heading 4
+## This is a heading 2
+### A heading 3, and
+#### A heading 4
 
-  And then, this is a last paragraph
-[/content]
+And then, this is a last paragraph
 
 [head]
   <style>
