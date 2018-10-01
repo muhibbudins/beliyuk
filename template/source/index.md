@@ -13,16 +13,3 @@ You can write anything here, and from-mark will be convert it to paragraph
 #### A heading 4
 
 And then, this is a last paragraph
-
-[head]
-  <style>
-    /* custom style you can write here */
-    body {
-      background-color: #EDEDED;
-    }
-  </style>
-[/head]
-
-[body]
-  <script src="/reload/reload.js"></script>
-[/body]
