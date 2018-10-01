@@ -1,0 +1,29 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #DEDEDE;
+  padding: 1rem;
+
+}
+header .menu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1rem;
+}
+header .menu div {
+  padding: .5rem 1rem;
+}
+article {
+  max-width: 1024px;
+  margin: 0 auto;
+  display: block;
+}
