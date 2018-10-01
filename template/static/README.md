@@ -1,3 +1,0 @@
-# HALSA
-
-Halaman statis

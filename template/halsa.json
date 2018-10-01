@@ -1,3 +1,5 @@
 {
-  "theme": "default"
+  "layout": "default",
+  "theme": "default",
+  "port": 3001
 }

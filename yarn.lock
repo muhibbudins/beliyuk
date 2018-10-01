@@ -504,9 +504,9 @@ fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
 
-from-mark@^0.2.0-dev:
-  version "0.2.0-dev"
-  resolved "https://registry.yarnpkg.com/from-mark/-/from-mark-0.2.0-dev.tgz#4a79c0ac66deb080f46332b3f826740fa0eca7c5"
+from-mark@^0.2.1-dev:
+  version "0.2.1-dev"
+  resolved "https://registry.yarnpkg.com/from-mark/-/from-mark-0.2.1-dev.tgz#29f1582059fd61d849328dff4ada55ac678e2fca"
 
 fs-extra@^7.0.0:
   version "7.0.0"

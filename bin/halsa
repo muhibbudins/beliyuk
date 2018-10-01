@@ -4,21 +4,21 @@ const { pathExistsSync } = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const program = require('commander')
-const config = require('../package')
+const package = require('../package')
 const create = require('../lib/create')
 const start = require('../lib/start')
 const root = process.cwd()
 
 program
   .usage('[command] [name | port]')
-  .version(`Halsa CLI v${config.version}`, '-v, --version')
+  .version(`Halsa CLI v${package.version}`, '-v, --version')
 
 program
   .command('create')
   .description('Run current project directory')
   .action((option) => {
     if (typeof option === 'object' && option.length === undefined) {
-      console.log(`[${chalk.red.bold('ERROR')}] Please define project directory, use ${chalk.blue.bold('halsa create [directory]')} to create halsa`)
+      console.log(`[${chalk.red.bold('error')}] Please define project directory, use ${chalk.blue.bold('halsa create [directory]')} to create halsa`)
     }
 
     if (typeof option !== 'object') {
@@ -31,21 +31,21 @@ program
   .description('Run current project directory')
   .action((option) => {
     if (typeof option === 'object') {
-      console.log(`[${chalk.red.bold('ERROR')}] Please define project directory, use ${chalk.blue.bold('halsa start [directory]')} to run halsa`)
+      console.log(`[${chalk.red.bold('error')}] Please define project directory, use ${chalk.blue.bold('halsa start [directory]')} to run halsa`)
     }
 
     if (typeof option === 'string') {
       const current = path.join(root, option)
-      const source = path.join(current, 'source')
+      const source = path.join(current, 'pages')
 
       if (pathExistsSync(source)) {
-        console.log(`[${chalk.green.bold('HALSA')}] Thanks for using Halsa`)
-        console.log(`[${chalk.green.bold('HALSA')}] Project already running on port 3000`)
-        console.log(`[${chalk.yellow.bold('HALSA')}] Watching file change ...`)
+        console.log(`[${chalk.green.bold('halsa')}] Thanks for using Halsa`)
+        console.log(`[${chalk.green.bold('halsa')}] Project already running on port 3000`)
+        console.log(`[${chalk.yellow.bold('halsa')}] Watching file change ...`)
 
         start(current)
       } else {
-        console.log(`[${chalk.red.bold('ERROR')}] Source directory is undefined in this folder, use ${chalk.blue.bold('halsa start [directory]')} to run halsa`)
+        console.log(`[${chalk.red.bold('error')}] Source directory is undefined in this folder, use ${chalk.blue.bold('halsa start [directory]')} to run halsa`)
       }
     }
   })
@@ -54,7 +54,7 @@ program.parse(process.argv)
 
 if (program.args.length === 0) {
   console.log(`
-  Welcome to Halsa CLI v${config.version},
+  Welcome to Halsa CLI v${package.version},
   Use ${chalk.green.bold('halsa --help')} to show help message.
   `)
 }

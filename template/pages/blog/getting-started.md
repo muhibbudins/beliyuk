@@ -1,6 +1,6 @@
 ---
-  title : Home page
-  description : This is home page
+  title : Getting started
+  description : This is Getting started
   viewport : width=device-width, initial-scale=1.0
 ---
 
