@@ -1,48 +1,6 @@
 [
   {
-    "document": [
-      {
-        "tag": "title",
-        "content": "Home page"
-      },
-      {
-        "tag": "meta",
-        "name": "description",
-        "content": "This is About page"
-      },
-      {
-        "tag": "meta",
-        "name": "viewport",
-        "content": "width=device-width, initial-scale=1.0"
-      }
-    ],
-    "content": [
-      {
-        "tag": "h1",
-        "content": "This is a heading 1"
-      },
-      {
-        "tag": "p",
-        "content": "You can write anything here, and from-mark will be convert it to paragraph"
-      },
-      {
-        "tag": "h2",
-        "content": "This is a heading 2"
-      },
-      {
-        "tag": "h3",
-        "content": "A heading 3, and"
-      },
-      {
-        "tag": "h4",
-        "content": "A heading 4"
-      },
-      {
-        "tag": "p",
-        "content": "And then, this is a last paragraph"
-      }
-    ],
-    "head": null,
-    "body": null
+    "title": "Home page",
+    "description": "This is About page"
   }
 ]
