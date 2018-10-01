@@ -1,6 +1,6 @@
 # 🍀 HALSA — WIP
 
-Simple static site generator using markdown for the content, this project using **[from-mark](https://github.com/muhibbudins/from-mark)** to compile markdown file to html file.
+On development don't use it — Simple static site generator using markdown for the content, this project using **[from-mark](https://github.com/muhibbudins/from-mark)** to compile markdown file to html file.
 
 ## Why HALSA?
 
