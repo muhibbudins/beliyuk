@@ -5,8 +5,8 @@ const path = require('path')
 const chalk = require('chalk')
 const program = require('commander')
 const config = require('../package')
-const install = require('../lib/install')
-const serve = require('../lib/serve')
+const create = require('../lib/create')
+const start = require('../lib/start')
 const root = process.cwd()
 
 program
@@ -14,24 +14,24 @@ program
   .version(`Halsa CLI v${config.version}`, '-v, --version')
 
 program
-  .command('init')
+  .command('create')
   .description('Run current project directory')
   .action((option) => {
     if (typeof option === 'object' && option.length === undefined) {
-      console.log(`[${chalk.red.bold('ERROR')}] Please define project directory, use ${chalk.blue.bold('halsa init [directory]')} to create halsa`)
+      console.log(`[${chalk.red.bold('ERROR')}] Please define project directory, use ${chalk.blue.bold('halsa create [directory]')} to create halsa`)
     }
 
     if (typeof option !== 'object') {
-      install(root, __dirname, option)
+      create(root, __dirname, option)
     }
   })
 
 program
-  .command('serve')
+  .command('start')
   .description('Run current project directory')
   .action((option) => {
     if (typeof option === 'object') {
-      console.log(`[${chalk.red.bold('ERROR')}] Please define project directory, use ${chalk.blue.bold('halsa serve [directory]')} to run halsa`)
+      console.log(`[${chalk.red.bold('ERROR')}] Please define project directory, use ${chalk.blue.bold('halsa start [directory]')} to run halsa`)
     }
 
     if (typeof option === 'string') {
@@ -43,9 +43,9 @@ program
         console.log(`[${chalk.green.bold('HALSA')}] Project already running on port 3000`)
         console.log(`[${chalk.yellow.bold('HALSA')}] Watching file change ...`)
 
-        serve(current)
+        start(current)
       } else {
-        console.log(`[${chalk.red.bold('ERROR')}] Source directory is undefined in this folder, use ${chalk.blue.bold('halsa serve [directory]')} to run halsa`)
+        console.log(`[${chalk.red.bold('ERROR')}] Source directory is undefined in this folder, use ${chalk.blue.bold('halsa start [directory]')} to run halsa`)
       }
     }
   })

@@ -32,13 +32,13 @@ And then, follow instruction below :
 Just run this command to create new project
 
 ```
-halsa init <project name>
+halsa create <project name>
 ```
 
 Or, if you're already create new directory just run inside a directory
 
 ```
-halsa init .
+halsa create .
 ```
 
 ### Serve project
@@ -46,13 +46,13 @@ halsa init .
 Run this project to serve project on port 3000
 
 ```
-halsa serve <project name>
+halsa start <project name>
 ```
 
 Or, if you're inside a project just run
 
 ```
-halsa serve .
+halsa start .
 ```
 
 ## License
