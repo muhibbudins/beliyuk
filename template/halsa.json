@@ -3,7 +3,6 @@
   "theme": "default",
   "port": 3001,
   "halsa": {
-    "layout": "/Users/katana/Sites/halsa/layout",
     "theme": "/Users/katana/Sites/halsa/theme"
   }
 }

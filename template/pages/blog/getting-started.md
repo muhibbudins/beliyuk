@@ -1,6 +1,6 @@
 ---
-  title : Home page
-  description : This is About page
+  title : Getting Started
+  description : This is Getting Started
   viewport : width=device-width, initial-scale=1.0
 ---
 
@@ -13,5 +13,3 @@ You can write anything here, and from-mark will be convert it to paragraph
 #### A heading 4
 
 And then, this is a last paragraph
-
-{# posts #}
