@@ -6,7 +6,7 @@
   const mark = require('markdown').markdown
   const pretty = require('pretty')
   const yaml = require('read-yaml')
-  // const sass = require('node-sass')
+  const sass = require('node-sass')
 
   const ROOT = __dirname
   const PROJECT = process.cwd()
@@ -125,11 +125,11 @@
         fs.mkdirSync(targ)
       }
       
-      // sass.render({ file: file }, (err, result) => {
-      //   fs.writeFileSync(fita, result)
+      sass.render({ file: file }, (err, result) => {
+        fs.writeFileSync(fita, new Buffer(result.css, 'utf8'))
 
         resolve('done')
-      // })
+      })
     })
   }
 
