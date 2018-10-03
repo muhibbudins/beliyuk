@@ -1,7 +1,7 @@
 ---
-  title : Getting Started
-  description : This is Getting Started
-  viewport : width=device-width, initial-scale=1.0
+  layout: page
+  title : Foo page
+  description : This is Foo page
 ---
 
 # This is a heading 1

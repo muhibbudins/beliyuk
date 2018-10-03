@@ -1,0 +1,4 @@
+theme: default
+port: 3001
+halsa:
+  theme: /Users/katana/Sites/halsa/theme

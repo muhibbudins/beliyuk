@@ -1,7 +1,7 @@
 ---
-  layout: landing
-  title : Home page
-  description : This is Home page
+  layout: page
+  title : Foo 2 page
+  description : This is Foo 2 page
 ---
 
 # This is a heading 1
