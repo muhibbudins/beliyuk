@@ -102,7 +102,12 @@ module.exports = async (directory) => {
         const afterCompile = beforeCompile(context)
 
         resolve(
-          pretty(afterCompile.replace(/\n/g, ''))
+          pretty(
+            afterCompile
+              .replace(/\n/g, '')
+              .replace(/(\/layouts|\/pages|\/static|\/themes)/g, `${CONFIG['domain']}$1`)
+              .replace(/(href="\/)/g, `href="${CONFIG['domain']}/`)
+          )
         )
       }
 

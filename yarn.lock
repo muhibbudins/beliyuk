@@ -745,10 +745,6 @@ fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
 
-fs-exists-sync@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/fs-exists-sync/-/fs-exists-sync-0.1.0.tgz#982d6893af918e72d08dec9e8673ff2b5a8d6add"
-
 fs-extra@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-7.0.0.tgz#8cc3f47ce07ef7b3593a11b9fb245f7e34c041d6"
@@ -1165,7 +1161,7 @@ js-beautify@^1.6.12:
     mkdirp "~0.5.0"
     nopt "~4.0.1"
 
-js-yaml@^3.8.2, js-yaml@^3.8.3:
+js-yaml@^3.8.2:
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.0.tgz#eaed656ec8344f10f527c6bfa1b6e2244de167d1"
   dependencies:
@@ -2427,21 +2423,6 @@ wrap-ansi@^2.0.0:
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
-
-write-yaml@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/write-yaml/-/write-yaml-1.0.0.tgz#314596119d0db91247cbc835bce0033b6e0ba09e"
-  dependencies:
-    extend-shallow "^2.0.1"
-    js-yaml "^3.8.3"
-    write "^0.3.3"
-
-write@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/write/-/write-0.3.3.tgz#09cdc5a2155607ee279f45e38d91ae29fb6a5178"
-  dependencies:
-    fs-exists-sync "^0.1.0"
-    mkdirp "^0.5.1"
 
 ws@~5.2.0:
   version "5.2.2"

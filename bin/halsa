@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 
 const fs = require('fs')
+const exec = require('child_process').execSync
 const path = require('path')
 const chalk = require('chalk')
 const read = require('read-yaml')
@@ -94,6 +95,41 @@ program
       done,
       error
     )
+  })
+
+program
+  .command('deploy')
+  .description('Deploy current project to Github Pages')
+  .action((option) => {
+    write(info(`Using Halsa CLI v${package.version}`))
+
+    if (typeof option === 'object') {
+      write(error('Please define <project name> to start project'))
+      write(error(`Run ${chalk.bold('halsa --help')} to see a details`))
+
+      process.exit(0)
+    }
+
+    const target = path.join(project, option)
+    const config = path.join(target, 'halsa.yml')
+    const git = path.join(target, '.git')
+
+    if (!fs.existsSync(config)) {
+      write(error('Config file not found, please start halsa on valid directory'))
+      write(error(`Run ${chalk.bold('halsa --help')} to see a details`))
+
+      process.exit(0)
+    }
+
+    if (!fs.existsSync(config)) {
+      exec(`cd ${target} && git init ${target} && git remote add origin ${config['repository']}`)
+    }
+
+    // exec('git add .halsa')
+    // exec('git commit -am "Latest deploy at ${new Date()}"')
+    exec('git subtree push --prefix .halsa origin gh-pages')
+
+    console.log('done')
   })
 
 program.parse(process.argv)

@@ -2,6 +2,7 @@
 theme: default
 
 # Server Configuration
+domain: http://muhibbudins.github.io/halsa
 port: 3001
 
 # Git Repository

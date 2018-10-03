@@ -1,6 +1,6 @@
 # 🍀 HALSA — WIP
 
-On development don't use it — Simple static site generator using markdown for the content, this project using **[from-mark](https://github.com/muhibbudins/from-mark)** to compile markdown file to html file.
+On development don't use it — Simple static site generator using markdown for the content.
 
 ## Why HALSA?
 
@@ -12,9 +12,9 @@ Halsa is acronym of "Halaman Statis" (Indonesian), which mean "Static Page" on e
 - [x] Serve project
 - [x] Watching change
 - [x] Hot reload
-- [ ] Custom html
-- [ ] Using theme
-- [ ] Custom port
+- [x] Custom html
+- [x] Using theme
+- [x] Custom port
 - [ ] So on.
 
 ## Usage
