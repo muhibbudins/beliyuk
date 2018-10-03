@@ -1,4 +1,8 @@
+# Layout Configuration
 theme: default
+
+# Server Configuration
 port: 3001
-halsa:
-  theme: /Users/katana/Sites/halsa/theme
+
+# Git Repository
+repository: url

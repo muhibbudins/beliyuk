@@ -1,11 +1,9 @@
 #! /usr/bin/env node
 
-const { pathExistsSync } = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const program = require('commander')
 const package = require('../package')
-const root = process.cwd()
 
 program
   .usage('[command] [name | port]')
@@ -15,37 +13,35 @@ program
   .command('new')
   .description('Create new halsa project')
   .action((option) => {
-    if (typeof option === 'object' && option.length === undefined) {
-      console.log(`[${chalk.red.bold('error')}] Please define project directory, use ${chalk.blue.bold('halsa new [directory]')} to new halsa`)
-    }
-
-    if (typeof option !== 'object') {
-      // new command
-    }
+    // something here
   })
 
 program
   .command('start')
   .description('Run current project directory')
   .action((option) => {
-    if (typeof option === 'object') {
-      console.log(`[${chalk.red.bold('error')}] Please define project directory, use ${chalk.blue.bold('halsa start [directory]')} to run halsa`)
-    }
+    // Something here
+  })
 
-    if (typeof option === 'string') {
-      const current = path.join(root, option)
-      const source = path.join(current, 'pages')
+program
+  .command('install')
+  .description('Run current project directory')
+  .action((option) => {
+    // Something here
+  })
 
-      if (pathExistsSync(source)) {
-        console.log(`[${chalk.green.bold('halsa')}] Thanks for using Halsa`)
-        console.log(`[${chalk.green.bold('halsa')}] Project already running on port 3000`)
-        console.log(`[${chalk.yellow.bold('halsa')}] Watching file change ...`)
+program
+  .command('clean')
+  .description('Run current project directory')
+  .action((option) => {
+    // Something here
+  })
 
-        // Start server
-      } else {
-        console.log(`[${chalk.red.bold('error')}] Source directory is undefined in this folder, use ${chalk.blue.bold('halsa start [directory]')} to run halsa`)
-      }
-    }
+program
+  .command('deploy')
+  .description('Run current project directory')
+  .action((option) => {
+    // Something here
   })
 
 program.parse(process.argv)
