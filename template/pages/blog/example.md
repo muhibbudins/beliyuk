@@ -1,8 +1,8 @@
 ---
   layout: page
-  title : Foo 2 page
-  description : This is Foo 2 page
-  category: Sample
+  title : Example
+  description : This is Example
+  category: Blog
   image: /static/cooking.jpg
 ---
 

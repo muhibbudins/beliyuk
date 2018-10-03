@@ -1,7 +1,7 @@
 ---
   layout: page
-  title : Foo page
-  description : This is Foo page
+  title : Getting Started
+  description : This is Getting Started
   category: Blog
   image: /static/cooking.jpg
 ---
