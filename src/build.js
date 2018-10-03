@@ -25,69 +25,6 @@ module.exports = async (directory) => {
     fs.mkdirSync(DATA)
   }
 
-  const detail = async (string) => {
-    return new Promise(resolve => {
-      let separator = false
-
-      const line = string.split('\n')
-      const bracket = {}
-
-      line.map(row => {
-        if (row.includes('---')) {
-          separator = !separator
-        }
-
-        if (separator && row !== '---') {
-          const split = row.split(':').map(item => item.trim())
-          bracket[split[0]] = split[1]
-        }
-      })
-
-      resolve(bracket)
-    })
-  }
-
-  const extract = async (files, section) => {
-    return new Promise(resolve => {
-      Promise.all(files
-        .filter(item => item.split('.').length > 1)
-        .map(async (item) => {
-          let data = {}
-          const content = fs.readFileSync(item, 'utf-8')
-          const ext = item.split('.').pop()
-          const root = item.split('/')
-          root.splice(-1, 1)
-
-          if (section === 'categories') {
-            data['name'] = item.split('/')[1]
-          }
-
-          if (['pages', 'categories'].indexOf(section) > -1) {
-            data['route'] = item.replace(/pages|categories/, '').replace(/md|mdx/g, 'html').replace('//', '/')
-            data['detail'] = await detail(content)
-          }
-          
-          return {
-            path: item,
-            root: root.join('/') + '/',
-            ...data
-          }
-        })
-      ).then(result => {
-        resolve(result)
-      })
-    })
-  }
-
-  const collect = async (section) => {
-    return new Promise(resolve => {
-      glob(`${PROJECT +'/'+ section}/**/*`, async (err, files) => {
-        const data = await extract(files, section)
-        resolve(data)
-      })
-    })
-  }
-
   const create = async (files) => {
     files.map(file => {
       const layout = path.join(LAYOUT, `${file['detail']['layout']}.html`)
@@ -143,16 +80,112 @@ module.exports = async (directory) => {
     })
   }
 
-  FOLDER.map(async (item) => {
-    const FILE = path.resolve(DATA, `${item}.json`)
-    const data = await collect(item)
+  const detail = async (string) => {
+    return new Promise(resolve => {
+      let separator = false
 
-    fs.writeFileSync(FILE, JSON.stringify(data, false, 2))
+      const line = string.split('\n')
+      const bracket = {}
 
-    if (['categories', 'pages'].indexOf(item) > -1) {
-      await create(data)
-    }
-  })
+      line.map(row => {
+        if (row.includes('---')) {
+          separator = !separator
+        }
 
-  await themes()
+        if (separator && row !== '---') {
+          const split = row.split(':').map(item => item.trim())
+          bracket[split[0]] = split[1]
+        }
+      })
+
+      resolve(bracket)
+    })
+  }
+
+  const extract = async (files, section) => {
+    return new Promise(resolve => {
+      Promise.all(files
+        .filter(item => item.split('.').length > 1)
+        .map(async (item) => {
+          let data = {}
+          const content = fs.readFileSync(item, 'utf-8')
+          const ext = item.split('.').pop()
+          const root = item.split('/')
+          root.splice(-1, 1)
+
+          if (section === 'categories') {
+            data['name'] = item.split('/')[1]
+          }
+
+          if (section === 'pages') {
+            data['name'] = item.split('/').pop()
+          }
+
+          if (['pages', 'categories'].indexOf(section) > -1) {
+            data['route'] = item.replace(/pages|categories/, '').replace(/md|mdx/g, 'html').replace('//', '/')
+            data['detail'] = await detail(content)
+          }
+          
+          return {
+            path: item,
+            root: root.join('/') + '/',
+            ...data
+          }
+        })
+      ).then(result => {
+        resolve(result)
+      })
+    })
+  }
+
+  const collect = async (section) => {
+    return new Promise(resolve => {
+      glob(`${PROJECT +'/'+ section}/**/*`, async (err, files) => {
+        const data = {}
+        data[section] = await extract(files, section)
+        resolve(data)
+      })
+    })
+  }
+
+  const listPages = async (folder) => {
+    return new Promise(resolve => {
+      Promise.all(folder.map(async (item) => {
+        return await collect(item)
+      })).then(asd => {
+        const x = {}
+        asd.map(item => {
+          const zz = Object.keys(item).pop()
+          x[zz] = item[zz]
+        })
+        resolve(x)
+      })
+    })
+  }
+
+  const extracted = async (page) => {
+    return new Promise(resolve => {
+      const bracket = []
+      Promise.all(Object.keys(page).map(async (section) => {
+        if (['pages', 'categories'].indexOf(section) > -1) {
+          return bracket.push(
+            await page[section]
+          )
+        }
+      })).then(res => {
+        console.log(bracket)
+      })
+    })
+  }
+
+  const page = await listPages(FOLDER)
+  const asdasd = await extracted(page)
+
+
+  // if (['categories', 'pages'].indexOf(item) > -1) {
+  //   await getPosts(data)
+  //   await create(data)
+  // }
+  // await themes()
+  // await fs.writeFileSync(path.resolve(DATA, 'posts.json'), JSON.stringify(posts, false, 2))
 }
