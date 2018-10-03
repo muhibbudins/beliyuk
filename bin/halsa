@@ -7,8 +7,6 @@ const package = require('../package')
 const halsa = __dirname
 const project = process.cwd()
 const timestamp = require('log-timestamp')
-const ora = require('ora')
-const spinner = ora('please wait')
 const { copySync } = require('fs-extra')
 
 timestamp(() => {
@@ -57,9 +55,7 @@ program
     const target = path.join(project, option)
 
     write(info(`Create halsa project on ${chalk.bold(directory)} directory`))
-    spinner.start()
     copySync(source, target)
-    spinner.stop()
     write(success(`Success create project on ${chalk.bold(directory)} directory`))
   })
 
