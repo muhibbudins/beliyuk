@@ -1,15 +1,14 @@
-(async () => {
-  const fs = require('fs')
-  const fx = require('fs-extra')
-  const path = require('path')
-  const glob = require('glob')
-  const mark = require('markdown').markdown
-  const pretty = require('pretty')
-  const yaml = require('read-yaml')
-  const sass = require('node-sass')
-  const template = require('template7')
+const fs = require('fs')
+const fx = require('fs-extra')
+const path = require('path')
+const glob = require('glob')
+const mark = require('markdown').markdown
+const pretty = require('pretty')
+const yaml = require('read-yaml')
+const sass = require('node-sass')
+const template = require('template7')
 
-  const ROOT = __dirname
+module.exports = async () => {
   const PROJECT = process.cwd()
   const BUILD = path.resolve(PROJECT, '.halsa')
   const LAYOUT = path.resolve(PROJECT, 'layouts')
@@ -153,6 +152,5 @@
     }
   })
 
-
   await themes()
-})()
+}
