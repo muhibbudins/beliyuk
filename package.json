@@ -1,6 +1,6 @@
 {
   "name": "halsa",
-  "version": "0.3.4-dev",
+  "version": "0.3.5-dev",
   "description": "Static page generator",
   "main": "index.js",
   "engines": {
