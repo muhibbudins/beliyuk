@@ -11,9 +11,20 @@
 <body>
   {{ content }}
 
-  {{#categories}}
-    <div>{{detail.title}}</div>
-    <div>{{detail.description}}</div>
-  {{/categories}}
+  <div class="category">
+    {{#each categories}}
+      <div>{{name}}</div>
+    {{/each}}
+  </div>
+
+  <div class="pages">
+    {{#each pages}}
+      <div>
+        <div>{{title}}</div>
+        <div>{{description}}</div>
+        <div>{{route}}</div>
+      </div>
+    {{/each}}
+  </div>
 </body>
 </html>

@@ -80,18 +80,28 @@ module.exports = async (directory) => {
   const setContent = async (content, file, section, categories) => {
     return new Promise(resolve => {
       if (section === 'pages') {
-        const layout = path.join(LAYOUT, `${file['layout']}.html`)
-        const html = fs.readFileSync(layout, 'utf-8')
+        let pageContent = mark.toHTML(content.replace(/^-{3}[^\0]*?-{3}/g, ''))
 
-        let string = mark.toHTML(content.replace(/^-{3}[^\0]*?-{3}/g, ''))
+        const layoutProps = ['categories', 'pages']
+        const layoutSource = path.join(LAYOUT, `${file['layout']}.html`)
+        const layoutContent = fs.readFileSync(layoutSource, 'utf-8')
 
-        const res = html
-          .replace('{{ content }}', string.replace(/\n/g, ''))
-          .replace('{{ theme }}', `<link rel="stylesheet" href="/themes/${CONFIG['theme']}.css">`)
-          .replace('</body>', `<script src="/reload/reload.js"></script></body>`)
+        const beforeCompile = template.compile(
+          layoutContent
+            .replace('{{ content }}', pageContent.replace(/\n/g, ''))
+            .replace('{{ theme }}', `<link rel="stylesheet" href="/themes/${CONFIG['theme']}.css">`)
+            .replace('</body>', `<script src="/reload/reload.js"></script></body>`)
+        )
+        const context = {}
+
+        layoutProps.map(item => {
+          context[item] = require(path.join(DATA, `${item}.json`))
+        })
+
+        const afterCompile = beforeCompile(context)
 
         resolve(
-          pretty(res)
+          pretty(afterCompile.replace(/\n/g, ''))
         )
       }
 
@@ -137,12 +147,15 @@ module.exports = async (directory) => {
     fs.writeFileSync(path.join(DATA, `${section}.json`), JSON.stringify(source, false, 2))
 
     if (section === 'pages') {
-
       source.map(item => {
-        categories[item['category']] = []
+        categories[item['category']] = {
+          name: item['category'],
+          pages: []
+        }
+
         return item
       }).map(item => {
-        categories[item['category']].push(item)
+        categories[item['category']]['pages'].push(item)
       })
 
       fs.writeFileSync(path.join(DATA, 'categories.json'), JSON.stringify(categories, false, 2))
