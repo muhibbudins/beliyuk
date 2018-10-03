@@ -4,6 +4,8 @@
   description : This is Home page
 ---
 
+![Cooking](/static/cooking.jpg)
+
 # This is a heading 1
 
 You can write anything here, and from-mark will be convert it to paragraph

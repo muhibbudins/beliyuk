@@ -3,6 +3,7 @@
   title : Foo 2 page
   description : This is Foo 2 page
   category: Sample
+  image: /static/cooking.jpg
 ---
 
 # This is a heading 1

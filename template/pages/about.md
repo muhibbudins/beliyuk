@@ -2,6 +2,7 @@
   layout: page
   title : About
   description : This is About page
+  image: /static/cooking.jpg
 ---
 
 # This is a heading 1

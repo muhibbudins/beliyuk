@@ -142,10 +142,12 @@ module.exports = async (directory) => {
   }
 
   Promise.all(['pages', 'themes', 'layouts'].map(async (section) => {
-    const source = await listing(section)
     const categories = {}
-
-    fs.writeFileSync(path.join(DATA, `${section}.json`), JSON.stringify(source, false, 2))
+    const source = await listing(section)
+    const filterize = await source.filter(item => {
+      return item && item['route'] !== '/index.html'
+    })
+    fs.writeFileSync(path.join(DATA, `${section}.json`), JSON.stringify(filterize, false, 2))
 
     if (section === 'pages') {
       source.map(item => {
@@ -162,6 +164,13 @@ module.exports = async (directory) => {
       fs.writeFileSync(path.join(DATA, 'categories.json'), JSON.stringify(categories, false, 2))
     }
 
-    await create(source, section, categories)
+    return await create(source, section, categories)
   }))
+
+  const staticPath = path.join(PROJECT, 'static')
+  const staticTarget = path.join(BUILD, 'static')
+
+  if (!fs.existsSync(staticTarget)) {
+    fx.copySync(staticPath, staticTarget)
+  }
 }
