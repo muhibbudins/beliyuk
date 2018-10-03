@@ -6,6 +6,7 @@
   const mark = require('markdown').markdown
   const pretty = require('pretty')
   const yaml = require('read-yaml')
+  // const sass = require('node-sass')
 
   const ROOT = __dirname
   const PROJECT = process.cwd()
@@ -102,20 +103,34 @@
         fx.mkdirpSync(xa)
       }
 
-      fs.writeFileSync(ya, pretty(laz.replace('{{ content }}', mark.toHTML(mad))))
+      let str = mark.toHTML(mad)
+      str += '<script src="/reload/reload.js"></script>'
+      const res = pretty(
+        laz
+          .replace('{{ content }}', str)
+          .replace('{{ theme }}', `<link rel="stylesheet" href="/themes/${CONFIG['theme']}.css">`)
+      )
+
+      fs.writeFileSync(ya, res)
     })
   }
 
   const themes = async () => {
-    const targ = path.resolve(BUILD, 'themes')
-    const file = path.resolve(THEME, `${CONFIG['theme']}.scss`)
-    const fita = path.resolve(targ, `${CONFIG['theme']}.css`)
-    
-    if (!fs.existsSync(targ)) {
-      fs.mkdirSync(targ)
-    }
+    return new Promise(resolve => {
+      const targ = path.resolve(BUILD, 'themes')
+      const file = path.resolve(THEME, `${CONFIG['theme']}.scss`)
+      const fita = path.resolve(targ, `${CONFIG['theme']}.css`)
+      
+      if (!fs.existsSync(targ)) {
+        fs.mkdirSync(targ)
+      }
+      
+      // sass.render({ file: file }, (err, result) => {
+      //   fs.writeFileSync(fita, result)
 
-    fs.writeFileSync(fita, 'asd')
+        resolve('done')
+      // })
+    })
   }
 
   FOLDER.map(async (item) => {
