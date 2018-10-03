@@ -8,8 +8,8 @@ const yaml = require('read-yaml')
 const sass = require('node-sass')
 const template = require('template7')
 
-module.exports = async () => {
-  const PROJECT = process.cwd()
+module.exports = async (directory) => {
+  const PROJECT = directory
   const BUILD = path.resolve(PROJECT, '.halsa')
   const LAYOUT = path.resolve(PROJECT, 'layouts')
   const THEME = path.resolve(PROJECT, 'themes')
@@ -63,7 +63,7 @@ module.exports = async () => {
           }
 
           if (['pages', 'categories'].indexOf(section) > -1) {
-            data['route'] = item.replace(/pages|categories/, '').replace(/md|mdx/g, 'html')
+            data['route'] = item.replace(/pages|categories/, '').replace(/md|mdx/g, 'html').replace('//', '/')
             data['detail'] = await detail(content)
           }
           
@@ -81,7 +81,7 @@ module.exports = async () => {
 
   const collect = async (section) => {
     return new Promise(resolve => {
-      glob(`${section}/**/*`, async (err, files) => {
+      glob(`${PROJECT +'/'+ section}/**/*`, async (err, files) => {
         const data = await extract(files, section)
         resolve(data)
       })
@@ -90,36 +90,38 @@ module.exports = async () => {
 
   const create = async (files) => {
     files.map(file => {
-      const lay = path.join(LAYOUT, `${file['detail']['layout']}.html`)
-      const laz = fs.readFileSync(lay, 'utf-8')
-      const mad = fs.readFileSync(file['path'], 'utf-8')
-      const set = file['route'].split('/')
-      const la = file['route'].replace(set.splice(-1, 1).join(''), '')
-      const xa = path.join(BUILD, la)
-      const ya = path.join(BUILD, file['route'])
-      const categories = require(path.resolve(DATA, 'categories.json'))
+      const layout = path.join(LAYOUT, `${file['detail']['layout']}.html`)
+      const html = fs.readFileSync(layout, 'utf-8')
+      const source = fs.readFileSync(file['path'], 'utf-8')
 
-      if (!fs.existsSync(xa)) {
-        fx.mkdirpSync(xa)
+      const route = file['route'].replace(PROJECT, '')
+      const fileName = route.split('/').splice(-1, 1)
+      const targetDir = path.join(BUILD, route.replace(fileName, ''))
+      const target = path.join(BUILD, route)
+
+      if (!fs.existsSync(targetDir)) {
+        fx.mkdirpSync(targetDir)
       }
 
-      let str = mark.toHTML(mad)
-      str += '<script src="/reload/reload.js"></script>'
+      const categories = require(path.resolve(DATA, 'categories.json'))
+
+      let string = mark.toHTML(source)
+      string += '<script src="/reload/reload.js"></script>'
       const context = {
         people: categories
       }
       const compile = template.compile(
-        laz
-          .replace('{{ content }}', str)
+        html
+          .replace('{{ content }}', string)
           .replace('{{ theme }}', `<link rel="stylesheet" href="/themes/${CONFIG['theme']}.css">`)
       )
       const compiled = compile(context)
 
-      const res = pretty(
+      const result = pretty(
         compiled
       )
 
-      fs.writeFileSync(ya, res)
+      fs.writeFileSync(target, result)
     })
   }
 

@@ -1,13 +1,16 @@
 #! /usr/bin/env node
 
+const fs = require('fs')
 const path = require('path')
 const chalk = require('chalk')
+const read = require('read-yaml')
 const program = require('commander')
 const package = require('../package')
 const halsa = __dirname
 const project = process.cwd()
 const timestamp = require('log-timestamp')
 const { copySync } = require('fs-extra')
+const start = require('../src/start')
 
 timestamp(() => {
   return `
@@ -63,7 +66,30 @@ program
   .command('start')
   .description('Run current project directory')
   .action((option) => {
-    // Something here
+    write(info(`Using Halsa CLI v${package.version}`))
+
+    if (typeof option === 'object') {
+      write(error('Please define <project name> to start project'))
+      write(error(`Run ${chalk.bold('halsa --help')} to see a details`))
+
+      process.exit(0)
+    }
+
+    const target = path.join(project, option)
+    const config = path.join(target, 'halsa.yml')
+
+    if (!fs.existsSync(config)) {
+      write(error('Config file not found, please start halsa on valid directory'))
+      write(error(`Run ${chalk.bold('halsa --help')} to see a details`))
+
+      process.exit(0)
+    }
+
+    start(
+      halsa,
+      target,
+      read.sync(config)
+    )
   })
 
 program.parse(process.argv)
