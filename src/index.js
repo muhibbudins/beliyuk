@@ -7,6 +7,7 @@
   const pretty = require('pretty')
   const yaml = require('read-yaml')
   const sass = require('node-sass')
+  const template = require('template7')
 
   const ROOT = __dirname
   const PROJECT = process.cwd()
@@ -88,7 +89,6 @@
     })
   }
 
-  // TODO Create File
   const create = async (files) => {
     files.map(file => {
       const lay = path.join(LAYOUT, `${file['detail']['layout']}.html`)
@@ -98,6 +98,7 @@
       const la = file['route'].replace(set.splice(-1, 1).join(''), '')
       const xa = path.join(BUILD, la)
       const ya = path.join(BUILD, file['route'])
+      const categories = require(path.resolve(DATA, 'categories.json'))
 
       if (!fs.existsSync(xa)) {
         fx.mkdirpSync(xa)
@@ -105,10 +106,18 @@
 
       let str = mark.toHTML(mad)
       str += '<script src="/reload/reload.js"></script>'
-      const res = pretty(
+      const context = {
+        people: categories
+      }
+      const compile = template.compile(
         laz
           .replace('{{ content }}', str)
           .replace('{{ theme }}', `<link rel="stylesheet" href="/themes/${CONFIG['theme']}.css">`)
+      )
+      const compiled = compile(context)
+
+      const res = pretty(
+        compiled
       )
 
       fs.writeFileSync(ya, res)
@@ -137,11 +146,11 @@
     const FILE = path.resolve(DATA, `${item}.json`)
     const data = await collect(item)
 
+    fs.writeFileSync(FILE, JSON.stringify(data, false, 2))
+
     if (['categories', 'pages'].indexOf(item) > -1) {
       await create(data)
     }
-
-    fs.writeFileSync(FILE, JSON.stringify(data, false, 2))
   })
 
 

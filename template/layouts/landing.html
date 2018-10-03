@@ -10,5 +10,10 @@
 </head>
 <body>
   {{ content }}
+
+  {{#each people}}
+    <div>{{detail.title}}</div>
+    <div>{{detail.description}}</div>
+  {{/each}}
 </body>
 </html>
