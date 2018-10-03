@@ -55,6 +55,18 @@ Or, if you're inside a project just run
 halsa start .
 ```
 
+### Documentations
+
+#### Show Category
+
+```html
+  <div class="category">
+    {{#each categories}}
+      <div>{{name}}</div>
+    {{/each}}
+  </div>
+```
+
 ## License
 
 This project under MIT License

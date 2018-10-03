@@ -77,7 +77,7 @@ module.exports = async (directory) => {
     })
   }
 
-  const setContent = async (content, file, section, categories) => {
+  const setContent = async (content, file, section) => {
     return new Promise(resolve => {
       if (section === 'pages') {
         let pageContent = mark.toHTML(content.replace(/^-{3}[^\0]*?-{3}/g, ''))
@@ -88,6 +88,7 @@ module.exports = async (directory) => {
 
         const beforeCompile = template.compile(
           layoutContent
+            .replace('{{ title }}', file['title'])
             .replace('{{ content }}', pageContent.replace(/\n/g, ''))
             .replace('{{ theme }}', `<link rel="stylesheet" href="/themes/${CONFIG['theme']}.css">`)
             .replace('</body>', `<script src="/reload/reload.js"></script></body>`)
