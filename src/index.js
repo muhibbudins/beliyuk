@@ -5,6 +5,7 @@
   const glob = require('glob')
   const mark = require('markdown').markdown
   const pretty = require('pretty')
+  const yaml = require('read-yaml')
 
   const ROOT = __dirname
   const PROJECT = process.cwd()
@@ -13,6 +14,7 @@
   const THEME = path.resolve(PROJECT, 'themes')
   const DATA = path.resolve(BUILD, 'data')
   const FOLDER = ['categories', 'layouts', 'pages', 'themes']
+  const CONFIG = yaml.sync(path.resolve(PROJECT, 'halsa.yml'))
 
   if (!fs.existsSync(BUILD)) {
     fs.mkdirSync(BUILD)
@@ -104,6 +106,18 @@
     })
   }
 
+  const themes = async () => {
+    const targ = path.resolve(BUILD, 'themes')
+    const file = path.resolve(THEME, `${CONFIG['theme']}.scss`)
+    const fita = path.resolve(targ, `${CONFIG['theme']}.css`)
+    
+    if (!fs.existsSync(targ)) {
+      fs.mkdirSync(targ)
+    }
+
+    fs.writeFileSync(fita, 'asd')
+  }
+
   FOLDER.map(async (item) => {
     const FILE = path.resolve(DATA, `${item}.json`)
     const data = await collect(item)
@@ -115,4 +129,6 @@
     fs.writeFileSync(FILE, JSON.stringify(data, false, 2))
   })
 
+
+  await themes()
 })()
