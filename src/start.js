@@ -5,7 +5,6 @@ const http = require('http')
 const reload = require('reload')
 const express = require('express')
 const chokidar = require('chokidar')
-const package = require('../package')
 const { pathExistsSync } = require('fs-extra')
 
 module.exports = (halsa, project, config) => {
