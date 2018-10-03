@@ -4,41 +4,67 @@ const path = require('path')
 const chalk = require('chalk')
 const program = require('commander')
 const package = require('../package')
+const halsa = __dirname
+const project = process.cwd()
+const timestamp = require('log-timestamp')
+const ora = require('ora')
+const spinner = ora('please wait')
+const { copySync } = require('fs-extra')
+
+timestamp(() => {
+  return `
+    ${chalk.green(`[${new Date().toLocaleTimeString()}]`)}
+  `.replace(' PM', '').trim()
+})
+
+const write = console.log
+
+const info = (message) => {
+  return `${chalk.cyan('[info]')} ${message}`
+}
+const success = (message) => {
+  return `${chalk.green('[done]')} ${message}`
+}
+const error = (message) => {
+  return `${chalk.red('[fail]')} ${message}`
+}
 
 program
-  .usage('[command] [name | port]')
+  .usage('[command] [options]')
   .version(`Halsa CLI v${package.version}`, '-v, --version')
 
 program
   .command('new')
+  .usage('halsa new <project>')
   .description('Create new halsa project')
   .action((option) => {
-    // something here
+    let directory = 'current'
+
+    write(info(`Using Halsa CLI v${package.version}`))
+
+    if (typeof option === 'object') {
+      write(error('Please define <project name> to create project'))
+      write(error(`Run ${chalk.bold('halsa --help')} to see a details`))
+
+      process.exit(0)
+    }
+
+    if (option !== '.') {
+      directory = option
+    }
+
+    const source = path.join(halsa, '../template')
+    const target = path.join(project, option)
+
+    write(info(`Create halsa project on ${chalk.bold(directory)} directory`))
+    spinner.start()
+    copySync(source, target)
+    spinner.stop()
+    write(success(`Success create project on ${chalk.bold(directory)} directory`))
   })
 
 program
   .command('start')
-  .description('Run current project directory')
-  .action((option) => {
-    // Something here
-  })
-
-program
-  .command('install')
-  .description('Run current project directory')
-  .action((option) => {
-    // Something here
-  })
-
-program
-  .command('clean')
-  .description('Run current project directory')
-  .action((option) => {
-    // Something here
-  })
-
-program
-  .command('deploy')
   .description('Run current project directory')
   .action((option) => {
     // Something here
