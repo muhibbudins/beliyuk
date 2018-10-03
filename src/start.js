@@ -7,7 +7,7 @@ const express = require('express')
 const chokidar = require('chokidar')
 const { pathExistsSync } = require('fs-extra')
 
-module.exports = (halsa, project, config) => {
+module.exports = (halsa, project, config, write, info, done, error) => {
   const app = express()
   const target = path.join(project, '.halsa')
   const port = config['port'] || 3000
@@ -38,9 +38,9 @@ module.exports = (halsa, project, config) => {
   const reloadServer = reload(app)
   const restart = (file) => {
     if (first) {
-      console.log(`Watching file ${file.replace(project, '')} changed`)
+      write(done(`Watching file ${file.replace(project, '')} changed`))
     } else {
-      console.log(`File ${file.replace(project, '')} changed`)
+      write(info(`File ${file.replace(project, '')} changed`))
     }
 
     build(project)
@@ -61,6 +61,6 @@ module.exports = (halsa, project, config) => {
     })
 
   server.listen(app.get('port'), function () {
-    console.log('Web server listening on port ' + app.get('port'))
+    write(info('Web server listening on port ' + app.get('port')))
   })
 }

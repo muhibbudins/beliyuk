@@ -15,7 +15,7 @@ const start = require('../src/start')
 timestamp(() => {
   return `
     ${chalk.green(`[${new Date().toLocaleTimeString()}]`)}
-  `.replace(' PM', '').trim()
+  `.replace(/ PM| AM/g, '').trim()
 })
 
 const write = console.log
@@ -23,7 +23,7 @@ const write = console.log
 const info = (message) => {
   return `${chalk.cyan('[info]')} ${message}`
 }
-const success = (message) => {
+const done = (message) => {
   return `${chalk.green('[done]')} ${message}`
 }
 const error = (message) => {
@@ -59,7 +59,7 @@ program
 
     write(info(`Create halsa project on ${chalk.bold(directory)} directory`))
     copySync(source, target)
-    write(success(`Success create project on ${chalk.bold(directory)} directory`))
+    write(done(`Success create project on ${chalk.bold(directory)} directory`))
   })
 
 program
@@ -88,7 +88,11 @@ program
     start(
       halsa,
       target,
-      read.sync(config)
+      read.sync(config),
+      write,
+      info,
+      done,
+      error
     )
   })
 
