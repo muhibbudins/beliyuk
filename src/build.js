@@ -104,15 +104,15 @@ module.exports = async (directory) => {
       }
 
       const categories = require(path.resolve(DATA, 'categories.json'))
-
-      let string = mark.toHTML(source)
+      const content = source.replace(/^-{3}[^\0]*-{3}/g, '')
+      let string = mark.toHTML(content)
       string += '<script src="/reload/reload.js"></script>'
       const context = {
         people: categories
       }
       const compile = template.compile(
         html
-          .replace('{{ content }}', string)
+          .replace('{{ content }}', string.replace(/\n/g, ''))
           .replace('{{ theme }}', `<link rel="stylesheet" href="/themes/${CONFIG['theme']}.css">`)
       )
       const compiled = compile(context)
