@@ -1,7 +1,8 @@
 ---
   layout: page
-  title : Foo 2 page
-  description : This is Foo 2 page
+  title : Foo page
+  description : This is Foo page
+  category: Blog
 ---
 
 # This is a heading 1

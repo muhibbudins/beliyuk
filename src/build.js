@@ -14,7 +14,6 @@ module.exports = async (directory) => {
   const LAYOUT = path.resolve(PROJECT, 'layouts')
   const THEME = path.resolve(PROJECT, 'themes')
   const DATA = path.resolve(BUILD, 'data')
-  const FOLDER = ['categories', 'layouts', 'pages', 'themes']
   const CONFIG = yaml.sync(path.resolve(PROJECT, 'halsa.yml'))
 
   if (!fs.existsSync(BUILD)) {
@@ -25,167 +24,130 @@ module.exports = async (directory) => {
     fs.mkdirSync(DATA)
   }
 
-  const create = async (files) => {
-    files.map(file => {
-      const layout = path.join(LAYOUT, `${file['detail']['layout']}.html`)
-      const html = fs.readFileSync(layout, 'utf-8')
-      const source = fs.readFileSync(file['path'], 'utf-8')
-
-      const route = file['route'].replace(PROJECT, '')
-      const fileName = route.split('/').splice(-1, 1)
-      const targetDir = path.join(BUILD, route.replace(fileName, ''))
-      const target = path.join(BUILD, route)
-
-      if (!fs.existsSync(targetDir)) {
-        fx.mkdirpSync(targetDir)
-      }
-
-      const categories = require(path.resolve(DATA, 'categories.json'))
-      const content = source.replace(/^-{3}[^\0]*-{3}/g, '')
-      let string = mark.toHTML(content)
-      string += '<script src="/reload/reload.js"></script>'
-      const context = {
-        people: categories
-      }
-      const compile = template.compile(
-        html
-          .replace('{{ content }}', string.replace(/\n/g, ''))
-          .replace('{{ theme }}', `<link rel="stylesheet" href="/themes/${CONFIG['theme']}.css">`)
-      )
-      const compiled = compile(context)
-
-      const result = pretty(
-        compiled
-      )
-
-      fs.writeFileSync(target, result)
-    })
-  }
-
-  const themes = async () => {
+  const detail = async (file, content, section) => {
     return new Promise(resolve => {
-      const targ = path.resolve(BUILD, 'themes')
-      const file = path.resolve(THEME, `${CONFIG['theme']}.scss`)
-      const fita = path.resolve(targ, `${CONFIG['theme']}.css`)
-      
-      if (!fs.existsSync(targ)) {
-        fs.mkdirSync(targ)
+      const name = file.split('/').splice(-1, 1)
+      let bracket = {
+        path: file,
+        route: file.replace(directory, ''),
+        targetPath: file.replace(PROJECT, BUILD).replace(name, ''),
+        targetFile: file.replace(PROJECT, BUILD)
       }
-      
-      sass.render({ file: file }, (err, result) => {
-        fs.writeFileSync(fita, new Buffer(result.css, 'utf8'))
 
-        resolve('done')
-      })
-    })
-  }
+      if (section === 'pages') {
+        const document = /^-{3}[^\0]*?-{3}/g.exec(content)
 
-  const detail = async (string) => {
-    return new Promise(resolve => {
-      let separator = false
+        if (document && document[0]) {
+          const cleared = content.replace(document[0], '')
+          const rows = document[0].split('\n').filter(item => item !== '---')
+  
+          bracket['category'] = 'Pages'
+          bracket['date'] = fs.statSync(file)['ctime']
 
-      const line = string.split('\n')
-      const bracket = {}
+          rows.map(item => {
+            const split = item.split(':').map(item => item.trim())
+            bracket[split[0]] = split[1]
+          })
 
-      line.map(row => {
-        if (row.includes('---')) {
-          separator = !separator
+          bracket['route'] = file.replace(
+            path.join(directory, 'pages'), ''
+          ).replace(/md|mdx/g, 'html')
+
+          bracket['targetFile'] = bracket['targetFile'].replace('pages/', '').replace(/md|mdx/g, 'html')
+          bracket['targetPath'] = bracket['targetPath'].replace('pages/', '').replace(/md|mdx/g, 'html')
         }
+      }
 
-        if (separator && row !== '---') {
-          const split = row.split(':').map(item => item.trim())
-          bracket[split[0]] = split[1]
-        }
-      })
+      if (section === 'themes') {
+        bracket['targetFile'] = bracket['targetFile'].replace(/sass|scss/g, 'css')
+      }
 
       resolve(bracket)
     })
   }
 
-  const extract = async (files, section) => {
+  const extract = async (file, section) => {
     return new Promise(resolve => {
-      Promise.all(files
-        .filter(item => item.split('.').length > 1)
-        .map(async (item) => {
-          let data = {}
-          const content = fs.readFileSync(item, 'utf-8')
-          const ext = item.split('.').pop()
-          const root = item.split('/')
-          root.splice(-1, 1)
-
-          if (section === 'categories') {
-            data['name'] = item.split('/')[1]
-          }
-
-          if (section === 'pages') {
-            data['name'] = item.split('/').pop()
-          }
-
-          if (['pages', 'categories'].indexOf(section) > -1) {
-            data['route'] = item.replace(/pages|categories/, '').replace(/md|mdx/g, 'html').replace('//', '/')
-            data['detail'] = await detail(content)
-          }
-          
-          return {
-            path: item,
-            root: root.join('/') + '/',
-            ...data
-          }
-        })
-      ).then(result => {
-        resolve(result)
-      })
-    })
-  }
-
-  const collect = async (section) => {
-    return new Promise(resolve => {
-      glob(`${PROJECT +'/'+ section}/**/*`, async (err, files) => {
-        const data = {}
-        data[section] = await extract(files, section)
-        resolve(data)
-      })
-    })
-  }
-
-  const listPages = async (folder) => {
-    return new Promise(resolve => {
-      Promise.all(folder.map(async (item) => {
-        return await collect(item)
-      })).then(asd => {
-        const x = {}
-        asd.map(item => {
-          const zz = Object.keys(item).pop()
-          x[zz] = item[zz]
-        })
-        resolve(x)
-      })
-    })
-  }
-
-  const extracted = async (page) => {
-    return new Promise(resolve => {
-      const bracket = []
-      Promise.all(Object.keys(page).map(async (section) => {
-        if (['pages', 'categories'].indexOf(section) > -1) {
-          return bracket.push(
-            await page[section]
-          )
-        }
+      Promise.all(file.map(async (item, index) => {
+        const content = fs.readFileSync(item, 'utf-8')
+        return await detail(item, content, section)
       })).then(res => {
-        console.log(bracket)
+        resolve(res)
       })
     })
   }
 
-  const page = await listPages(FOLDER)
-  const asdasd = await extracted(page)
+  const setContent = async (content, file, section, categories) => {
+    return new Promise(resolve => {
+      if (section === 'pages') {
+        const layout = path.join(LAYOUT, `${file['layout']}.html`)
+        const html = fs.readFileSync(layout, 'utf-8')
 
+        let string = mark.toHTML(content.replace(/^-{3}[^\0]*?-{3}/g, ''))
 
-  // if (['categories', 'pages'].indexOf(item) > -1) {
-  //   await getPosts(data)
-  //   await create(data)
-  // }
-  // await themes()
-  // await fs.writeFileSync(path.resolve(DATA, 'posts.json'), JSON.stringify(posts, false, 2))
+        const res = html
+          .replace('{{ content }}', string.replace(/\n/g, ''))
+          .replace('{{ theme }}', `<link rel="stylesheet" href="/themes/${CONFIG['theme']}.css">`)
+          .replace('</body>', `<script src="/reload/reload.js"></script></body>`)
+
+        resolve(
+          pretty(res)
+        )
+      }
+
+      if (section === 'themes') {
+        sass.render({ data: content }, (err, result) => {
+          resolve(new Buffer(result.css, 'utf8'))
+        })
+      }
+    })
+  }
+
+  const create = async (source, section, categories) => {
+    return new Promise(resolve => {
+      Promise.all(source.map(async (file) => {
+        const string = fs.readFileSync(file['path'], 'utf-8')
+        const content = await setContent(string, file, section, categories)
+
+        if (!fs.existsSync(file['targetPath'])) {
+          await fx.mkdirpSync(file['targetPath'])
+        }
+
+        fs.copyFileSync(file['path'], file['targetFile'])
+        fs.writeFileSync(file['targetFile'], content)
+      }))
+    })
+  }
+
+  const listing = async (section) => {
+    return new Promise(resolve => {
+      glob(`${PROJECT + '/' + section}/**/*`, async (err, file) => {
+        const files = file.filter(item => item.includes('.'))
+        resolve(
+          await extract(files, section)
+        )
+      })
+    })
+  }
+
+  Promise.all(['pages', 'themes', 'layouts'].map(async (section) => {
+    const source = await listing(section)
+    const categories = {}
+
+    fs.writeFileSync(path.join(DATA, `${section}.json`), JSON.stringify(source, false, 2))
+
+    if (section === 'pages') {
+
+      source.map(item => {
+        categories[item['category']] = []
+        return item
+      }).map(item => {
+        categories[item['category']].push(item)
+      })
+
+      fs.writeFileSync(path.join(DATA, 'categories.json'), JSON.stringify(categories, false, 2))
+    }
+
+    await create(source, section, categories)
+  }))
 }
