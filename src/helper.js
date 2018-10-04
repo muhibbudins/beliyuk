@@ -57,7 +57,7 @@ module.exports = () => {
       <div class="row">
         ${data.slice(0, limit).map(item => {
           return `
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-lg-4">
               <div class="card">
                 <img class="card-img-top" src="${item['content']['image']}" alt="Card image cap">
                 <div class="card-body">
