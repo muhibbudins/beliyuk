@@ -2,9 +2,19 @@
   layout: page
   title : About
   description : This is About page
-  image: /static/cooking.jpg
 ---
 
-# This is about page
+### Why HALSA?
 
-You can write anything here, and from-mark will be convert it to paragraph
+Halsa is acronym of "Halaman Statis" (Indonesian), which mean "Static Page" on english.
+
+#### Feature
+
+- Create project
+- Serve project
+- Watching change
+- Hot reload
+- Custom html
+- Using theme
+- Custom port
+- So on.

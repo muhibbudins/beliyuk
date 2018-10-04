@@ -1,6 +1,6 @@
 ---
   layout: landing
-  title : Home page
+  title : Home
   description : This is Home page
 ---
 

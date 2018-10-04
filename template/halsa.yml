@@ -5,7 +5,7 @@ menu:
   - title: Home
     url: /
   - title: Documentation
-    url: /docs.html
+    url: /docs/getting-started.html
   - title: About
     url: /about.html
   - title: Github
@@ -13,6 +13,7 @@ menu:
 ignored:
   - index.html
   - about.html
+  - docs.html
 
 # Server Configuration
 domain: http://localhost:3001

@@ -62,8 +62,8 @@ module.exports = () => {
                 <img class="card-img-top" src="${item['content']['image']}" alt="Card image cap">
                 <div class="card-body">
                   <h4 class="card-title">${item['content']['title']}</h4>
-                  <p class="card-text">${item['content']['description']}</p>
-                  <a href="${item['content']['route']}" class="btn btn-primary">Read More</a>
+                  <p class="card-text">${item['content']['description'].substr(0, 120)}...</p>
+                  <a href="${item['route']}" class="btn btn-primary">Read More</a>
                 </div>
               </div>
             </div>
