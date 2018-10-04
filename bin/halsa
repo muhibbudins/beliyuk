@@ -124,10 +124,11 @@ program
     const config = read.sync(halsa)
  
     ghpages.publish('.halsa', {
+      message: `Auto-generated commit ${new Date()}`,
       branch: config['branch'],
       repo: config['repository']
     }, (err) => {
-      console.log('done')
+      console.log(err)
     })
   })
 
