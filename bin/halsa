@@ -125,7 +125,7 @@ program
  
     ghpages.publish('.halsa', {
       branch: 'master',
-      repo: config['git']
+      repo: config['repository']
     }, (err) => {
       console.log('done')
     })
