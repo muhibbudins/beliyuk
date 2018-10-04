@@ -12,6 +12,7 @@ const project = process.cwd()
 const timestamp = require('log-timestamp')
 const { copySync } = require('fs-extra')
 const start = require('../src/start')
+const ghpages = require('gh-pages')
 
 timestamp(() => {
   return `
@@ -111,25 +112,23 @@ program
     }
 
     const target = path.join(project, option)
-    const config = path.join(target, 'halsa.yml')
-    const git = path.join(target, '.git')
+    const halsa = path.join(target, 'halsa.yml')
 
-    if (!fs.existsSync(config)) {
+    if (!fs.existsSync(halsa)) {
       write(error('Config file not found, please start halsa on valid directory'))
       write(error(`Run ${chalk.bold('halsa --help')} to see a details`))
 
       process.exit(0)
     }
 
-    if (!fs.existsSync(config)) {
-      exec(`cd ${target} && git init ${target} && git remote add origin ${config['repository']}`)
-    }
-
-    // exec('git add .halsa')
-    // exec('git commit -am "Latest deploy at ${new Date()}"')
-    exec('git subtree push --prefix .halsa origin gh-pages')
-
-    console.log('done')
+    const config = read.sync(halsa)
+ 
+    ghpages.publish('.halsa', {
+      branch: 'master',
+      repo: config['git']
+    }, (err) => {
+      console.log('done')
+    })
   })
 
 program.parse(process.argv)
