@@ -32,13 +32,13 @@ And then, follow instruction below :
 Just run this command to create new project
 
 ```
-halsa create <project name>
+halsa new <project name>
 ```
 
 Or, if you're already create new directory just run inside a directory
 
 ```
-halsa create .
+halsa new .
 ```
 
 ### Serve project
