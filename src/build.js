@@ -2,13 +2,11 @@ const fs = require('fs')
 const fx = require('fs-extra')
 const path = require('path')
 const yaml = require('read-yaml')
+const helper = require('./helper')
 const {
   getFile,
   setFile
 } = require('./utils')
-const {
-  sample
-} = require('./helper')
 
 module.exports = async (directory) => {
   const buildDirectory = path.resolve(directory, '.halsa')
@@ -28,7 +26,7 @@ module.exports = async (directory) => {
     JSON.stringify(configDirectory, false, 2)
   )
 
-  sample()
+  helper()
 
   Promise.all(['pages', 'themes', 'layouts'].map(async (section) => {
     const bracket = {}
