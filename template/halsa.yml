@@ -1,12 +1,13 @@
 # Layout Configuration
+name: Halsa
 theme: default
 menu:
-  - Home [/]
-  - Blog [/blog]
-  - About [/about]
+  - Home - [/]
+  - Blog - [/blog]
+  - About - [/about.html]
 
 # Server Configuration
-domain: http://muhibbudins.github.io/halsa
+domain: http://localhost:3001
 port: 3001
 
 # Git Repository

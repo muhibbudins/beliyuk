@@ -24,6 +24,19 @@ module.exports = async (directory) => {
     fs.mkdirSync(DATA)
   }
 
+  const menus = CONFIG['menu'].map(item => {
+    const split = item.replace(/\[|\]/g, '').split(' - ')
+
+    return {
+      title: split[0].trim(),
+      url: split[1].trim()
+    }
+  })
+
+  CONFIG['menu'] = menus
+
+  fs.writeFileSync(path.join(DATA, 'config.json'), JSON.stringify(CONFIG, false, 2))
+
   const detail = async (file, content, section) => {
     return new Promise(resolve => {
       const name = file.split('/').splice(-1, 1)
@@ -82,7 +95,7 @@ module.exports = async (directory) => {
       if (section === 'pages') {
         let pageContent = mark.toHTML(content.replace(/^-{3}[^\0]*?-{3}/g, ''))
 
-        const layoutProps = ['categories', 'pages']
+        const layoutProps = ['categories', 'pages', 'config']
         const layoutSource = path.join(LAYOUT, `${file['layout']}.html`)
         const layoutContent = fs.readFileSync(layoutSource, 'utf-8')
 
@@ -151,7 +164,7 @@ module.exports = async (directory) => {
     const categories = {}
     const source = await listing(section)
     const filterize = await source.filter(item => {
-      return item && item['route'] !== '/index.html'
+      return item && !item['route'].includes('/index.html')
     })
     fs.writeFileSync(path.join(DATA, `${section}.json`), JSON.stringify(filterize, false, 2))
 

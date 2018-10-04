@@ -15,7 +15,8 @@ module.exports = (halsa, project, config, write, info, done, error) => {
     path.join(project, '/pages/'),
     path.join(project, '/layouts/'),
     path.join(project, '/themes/'),
-    path.join(project, '/static/')
+    path.join(project, '/static/'),
+    path.join(project, '/halsa.yml')
   ]
 
   if (!pathExistsSync(target)) {
