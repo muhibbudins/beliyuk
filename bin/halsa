@@ -124,7 +124,7 @@ program
     const config = read.sync(halsa)
  
     ghpages.publish('.halsa', {
-      branch: 'master',
+      branch: config['branch'],
       repo: config['repository']
     }, (err) => {
       console.log('done')
