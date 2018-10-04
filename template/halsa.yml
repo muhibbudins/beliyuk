@@ -5,6 +5,9 @@ menu:
   - Home - [/]
   - Blog - [/blog]
   - About - [/about.html]
+ignored:
+  - index.html
+  - about.html
 
 # Server Configuration
 domain: http://localhost:3001

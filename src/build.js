@@ -164,7 +164,7 @@ module.exports = async (directory) => {
     const categories = {}
     const source = await listing(section)
     const filterize = await source.filter(item => {
-      return item && !item['route'].includes('/index.html')
+      return item && CONFIG['ignored'].indexOf(item['route'].split('/').pop()) === -1
     })
     fs.writeFileSync(path.join(DATA, `${section}.json`), JSON.stringify(filterize, false, 2))
 
