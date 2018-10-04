@@ -4,6 +4,8 @@
   description : This is Home page
 ---
 
-# This is a Home page
+![Demo](/static/banner.jpg)
 
-You can write anything here, and from-mark will be convert it to paragraph
+### Welcome to Halsa! 🎊
+
+We simplify your workflow to built your website, just write your content and run **halsa start**.

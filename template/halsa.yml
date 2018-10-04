@@ -2,9 +2,14 @@
 name: Halsa
 theme: default
 menu:
-  - Home - [/]
-  - Blog - [/blog]
-  - About - [/about.html]
+  - title: Home
+    url: /
+  - title: Documentation
+    url: /docs.html
+  - title: About
+    url: /about.html
+  - title: Github
+    url: https://github.com/muhibbudins/halsa-cli
 ignored:
   - index.html
   - about.html

@@ -24,17 +24,6 @@ module.exports = async (directory) => {
     fs.mkdirSync(DATA)
   }
 
-  const menus = CONFIG['menu'].map(item => {
-    const split = item.replace(/\[|\]/g, '').split(' - ')
-
-    return {
-      title: split[0].trim(),
-      url: split[1].trim()
-    }
-  })
-
-  CONFIG['menu'] = menus
-
   fs.writeFileSync(path.join(DATA, 'config.json'), JSON.stringify(CONFIG, false, 2))
 
   const detail = async (file, content, section) => {
@@ -189,7 +178,5 @@ module.exports = async (directory) => {
   const staticPath = path.join(PROJECT, 'static')
   const staticTarget = path.join(BUILD, 'static')
 
-  if (!fs.existsSync(staticTarget)) {
-    fx.copySync(staticPath, staticTarget)
-  }
+  fx.copySync(staticPath, staticTarget)
 }
