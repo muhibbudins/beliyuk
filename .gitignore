@@ -60,3 +60,7 @@ typings/
 # DS Store
 .DS_Store
 **/.DS_Store
+
+# Lock
+yarn.lock
+package-lock.json
