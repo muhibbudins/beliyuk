@@ -20,5 +20,5 @@ domain: https://muhibbudins.github.io/halsa
 port: 3001
 
 # Git Repository
-branch: master
+branch: gh-pages
 repository: git@github.com:muhibbudins/halsa.git

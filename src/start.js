@@ -1,4 +1,3 @@
-const chalk = require('chalk')
 const path = require('path')
 const build = require('./build')
 const http = require('http')
@@ -36,7 +35,7 @@ module.exports = (halsa, project, config, write, info, done, error) => {
     persistent: true
   })
   const server = http.createServer(app)
-  const reloadServer = reload(app)
+  const serverReload = reload(app)
   const restart = (file) => {
     if (first) {
       write(done(`Watching file ${file.replace(project, '')} changed`))
@@ -46,7 +45,7 @@ module.exports = (halsa, project, config, write, info, done, error) => {
 
     build(project)
 
-    reloadServer.reload()
+    serverReload.reload()
   }
 
   setTimeout(() => {

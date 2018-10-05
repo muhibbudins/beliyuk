@@ -10,7 +10,7 @@ const package = require('../package')
 const halsa = __dirname
 const project = process.cwd()
 const timestamp = require('log-timestamp')
-const { copySync } = require('fs-extra')
+const { copySync, unlinkSync } = require('fs-extra')
 const start = require('../src/start')
 const ghpages = require('gh-pages')
 
@@ -30,6 +30,17 @@ const done = (message) => {
 }
 const error = (message) => {
   return `${chalk.red('[fail]')} ${message}`
+}
+
+const configExist = (halsa) => {
+  if (!fs.existsSync(halsa)) {
+    write(error('Config file not found, please start halsa on valid directory'))
+    write(error(`Run ${chalk.bold('halsa --help')} to see a details`))
+
+    process.exit(0)
+  }
+  
+  return read.sync(halsa)
 }
 
 program
@@ -66,8 +77,12 @@ program
 
 program
   .command('start')
+  .usage('halsa start <project>')
   .description('Run current project directory')
   .action((option) => {
+    const target = path.join(project, option)
+    const config = configExist(path.join(target, 'halsa.yml'))
+
     write(info(`Using Halsa CLI v${package.version}`))
 
     if (typeof option === 'object') {
@@ -77,20 +92,10 @@ program
       process.exit(0)
     }
 
-    const target = path.join(project, option)
-    const config = path.join(target, 'halsa.yml')
-
-    if (!fs.existsSync(config)) {
-      write(error('Config file not found, please start halsa on valid directory'))
-      write(error(`Run ${chalk.bold('halsa --help')} to see a details`))
-
-      process.exit(0)
-    }
-
     start(
       halsa,
       target,
-      read.sync(config),
+      config,
       write,
       info,
       done,
@@ -102,6 +107,11 @@ program
   .command('deploy')
   .description('Deploy current project to Github Pages')
   .action((option) => {
+    const target = path.join(project, option)
+    const halsa = path.join(target, 'halsa.yml')
+    const config = configExist(halsa)
+    const cache = path.resolve(__dirname, '../node_modules/gh-pages/.cache')
+
     write(info(`Using Halsa CLI v${package.version}`))
 
     if (typeof option === 'object') {
@@ -111,17 +121,9 @@ program
       process.exit(0)
     }
 
-    const target = path.join(project, option)
-    const halsa = path.join(target, 'halsa.yml')
-
-    if (!fs.existsSync(halsa)) {
-      write(error('Config file not found, please start halsa on valid directory'))
-      write(error(`Run ${chalk.bold('halsa --help')} to see a details`))
-
-      process.exit(0)
+    if (fs.existsSync(cache)) {
+      exec(`node ${path.resolve(__dirname, '../node_modules/gh-pages/bin/gh-pages-clean.js')}`)
     }
-
-    const config = read.sync(halsa)
  
     ghpages.publish('.halsa', {
       message: `Auto-generated commit ${new Date()}`,
