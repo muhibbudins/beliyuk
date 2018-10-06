@@ -7,6 +7,7 @@ const pretty = require('pretty')
 const yaml = require('read-yaml')
 const sass = require('node-sass')
 const template = require('template7')
+const unescape = require('unescape')
 
 let pathProject, pathBuild, pathLayout, pathData, appConfig
 
@@ -73,6 +74,18 @@ const setContent = async (content, file, section) => {
       const layoutProps = ['categories', 'pages', 'config']
       const layoutSource = path.join(pathLayout, `${file['content']['layout']}.html`)
       const layoutContent = fs.readFileSync(layoutSource, 'utf-8')
+      const matchHTMLEscape = /\[#html\]([^\0]*)?\[\/html]/g
+      const matchTemplateEscape = /\[#h?(.*)\/]/g
+      const matchHTMLContent = matchHTMLEscape.exec(pageContent)
+      const matchTemplateContent = matchTemplateEscape.exec(pageContent)
+
+      if (matchHTMLContent) {
+        pageContent = pageContent.replace(matchHTMLEscape, unescape(matchHTMLContent[1]))
+      }
+
+      if (matchTemplateContent) {
+        pageContent = pageContent.replace(matchTemplateEscape, `{{h${unescape(matchTemplateContent[1]).trim()} }}`)
+      }
 
       const beforeCompile = template.compile(
         layoutContent

@@ -70,9 +70,18 @@ program
     const source = path.join(halsa, '../template')
     const target = path.join(project, option)
 
-    write(info(`Create halsa project on ${chalk.bold(directory)} directory`))
     copySync(source, target)
-    write(done(`Success create project on ${chalk.bold(directory)} directory`))
+    write(done(`
+
+      Thanks for using ${chalk.green.bold('Halsa ' + package.version)}
+
+      Halsa already created on ${chalk.cyan.bold(option === '.' ? 'current directory' : 'directory ' + option)}
+      Use ${chalk.cyan.bold('halsa start ' + option)} to run halsa development server.
+
+      Best regards,
+
+      ${chalk.white.bold('@muhibbudins')}
+    `).replace(/\t/g, ''))
   })
 
 program

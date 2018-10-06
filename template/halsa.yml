@@ -6,18 +6,17 @@ menu:
     url: /
   - title: Documentation
     url: /docs/getting-started.html
-  - title: About
-    url: /about.html
-  - title: Github
-    url: https://github.com/muhibbudins/halsa-cli
+  - title: Layouts
+    url: /docs/layout-list.html
+  - title: Creator
+    url: https://github.com/muhibbudins
 ignored:
   - index.html
   - about.html
-  - docs.html
 
 # Server Configuration
-domain: https://muhibbudins.github.io/halsa
-port: 3001
+domain: http://localhost:3000
+port: 3000
 
 # Git Repository
 branch: gh-pages
