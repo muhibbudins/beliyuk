@@ -53,10 +53,10 @@ module.exports = (halsa, project, config, write, info, done, error) => {
   }, 2000)
 
   watcher
-    .on('add', (path) => {restart(path)})
+    .on('add', (path) => restart(path))
     .on('change', (path) => restart(path))
     .on('unlink', (path) => restart(path))
-    .on('error', (path) => {
+    .on('error', () => {
       process.exit(0)
     })
 
