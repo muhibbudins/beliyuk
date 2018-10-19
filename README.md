@@ -1,6 +1,6 @@
-# 🍀 HALSA — WIP
+# 🍀 HALSA
 
-On development don't use it — Simple static site generator using markdown for the content.
+Simple static site generator using markdown for the content.
 
 ## Why HALSA?
 
